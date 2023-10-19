@@ -100,6 +100,14 @@ CREATE TABLE IF NOT EXISTS `todo`.`Users_has_List` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- --------------------------------------------------
+-- TRIGGERS
+-- -------------------------------------------------
+CREATE TRIGGER update_Users_updatedAt BEFORE UPDATE ON todo.Users FOR EACH ROW SET NEW.updatedAt = current_timestamp();
+CREATE TRIGGER update_Users_has_List_updatedAt BEFORE UPDATE ON todo.Users_has_List FOR EACH ROW SET NEW.updatedAt = current_timestamp();
+CREATE TRIGGER update_List_updatedAt BEFORE UPDATE ON todo.List FOR EACH ROW SET NEW.updatedAt = current_timestamp();
+CREATE TRIGGER update_ListItem_updatedAt BEFORE UPDATE ON todo.ListItem FOR EACH ROW SET NEW.updatedAt = current_timestamp();
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
