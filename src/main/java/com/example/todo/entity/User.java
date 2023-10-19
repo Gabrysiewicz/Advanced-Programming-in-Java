@@ -8,36 +8,33 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
-@Table(name = "Lists")
-public class List {
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "Users")
+public class User {
     @Id
     @GeneratedValue
     private int id;
 
-//    @ManyToMany(mappedBy = "lists")
-//    private Set<User> users;
+//    @ManyToMany(cascade = { CascadeType.ALL })
+//    private Set<List> lists;
+    @OneToMany(mappedBy = "user")
+    private Set<UsersLists> lists;
 
-    @OneToMany(mappedBy = "list")
-    private Set<UsersLists> users;
-
-    private String hash;
-
-    private Boolean isFavorite;
-
-    @OneToMany(mappedBy = "list")
-    private Set<ListItem> listItems;
-
+    private String email;
+    private String password;
+    private String name;
+    private String surname;
+    private String profilePicture;
     @CreationTimestamp
     private Date createdAt;
-
     @UpdateTimestamp
     private Date updatedAt;
+
+
 
 }

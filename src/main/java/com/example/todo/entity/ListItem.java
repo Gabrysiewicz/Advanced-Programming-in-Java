@@ -6,37 +6,28 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.type.YesNoConverter;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
-@Table(name = "Lists")
-public class List {
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "ListItems")
+public class ListItem
+{
     @Id
     @GeneratedValue
     private int id;
-
-//    @ManyToMany(mappedBy = "lists")
-//    private Set<User> users;
-
-    @OneToMany(mappedBy = "list")
-    private Set<UsersLists> users;
-
-    private String hash;
-
-    private Boolean isFavorite;
-
-    @OneToMany(mappedBy = "list")
-    private Set<ListItem> listItems;
+    @ManyToOne
+    private List list;
+    private String name;
+    private Boolean isDone;
+    private String description;
 
     @CreationTimestamp
     private Date createdAt;
-
     @UpdateTimestamp
     private Date updatedAt;
 
