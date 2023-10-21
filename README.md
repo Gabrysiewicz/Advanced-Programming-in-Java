@@ -8,9 +8,12 @@ Baza danych zawiera 3 tabele:
    - Dane użytkowników do identyfikacji: Name, Surname, ProfilePicture(hash)
    - Dane dla administratora: createdAt, updatedAt
  - List
-   - Klucz obcy wskazujący na itemy przynależące do listy
    - Hash, 16 znakowy 'kod', użytkownik w celu podzielenia się listą będzie przekazywał link do listy i hash innemu użytkownikowi któremu zechce udostępnić listę
-   - Klucz obcy wzkazujący na użytkownika do którego należy lista
+   - idUsers, Klucz obcy wzkazujący na użytkownika do którego należy lista
+   - Mode, określający w jakim trybie lista będzie udostępniana
+     1. Copy
+     2. Shared
+   - isFavourite, pole określające priorytet list
    - Dane dla administratora: createdAt, updatedAt
  - ListItem
    - Klucz obcy wskazujący na listę do której przynależy item
