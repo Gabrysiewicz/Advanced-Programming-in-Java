@@ -1,7 +1,8 @@
 package com.example.todo.service;
 
-import com.example.todo.entity.List;
+import com.example.todo.entity.*;
 import com.example.todo.repository.ListRepository;
+import com.example.todo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,17 @@ public class ListService {
     @Autowired
     private ListRepository repository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+
     public List saveList(List list) {
+//        // TODO: fix this
+//        User user = userRepository.findById(id).orElse(null);
+//        UsersLists usersLists = new UsersLists();
+//        usersLists.setUser(user);
+//        usersLists.setList(list);
+//        assocRepository.save(usersLists);
         return repository.save(list);
     }
 
@@ -41,5 +52,22 @@ public class ListService {
         existing.setHash(list.getHash());
         existing.setIsFavorite(list.getIsFavorite());
         return repository.save(existing);
+    }
+
+    public List assignListToUser(int userId, int listId) {
+        System.out.println("service");
+
+        User user = userRepository.findById(userId).orElse(null);
+        List list = repository.findById(listId).orElse(null);
+
+        user.addList(list);
+        list.addUser(user);
+        System.out.println("dodano");
+
+//        userRepository.save(user);
+        System.out.println("zapisano");
+
+        return repository.save(list);
+
     }
 }

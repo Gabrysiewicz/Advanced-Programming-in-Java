@@ -1,14 +1,16 @@
 package com.example.todo.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Data
@@ -21,23 +23,37 @@ public class List {
     @GeneratedValue
     private int id;
 
-//    @ManyToMany(mappedBy = "lists")
-//    private Set<User> users;
-
-    @OneToMany(mappedBy = "list")
-    private Set<UsersLists> users;
 
     private String hash;
 
     private Boolean isFavorite;
 
-    @OneToMany(mappedBy = "list")
+    @JsonManagedReference
+    @EqualsAndHashCode.Exclude()
+    @ToString.Exclude
+    @OneToMany(mappedBy = "list", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<ListItem> listItems;
+
+    @ManyToMany(mappedBy = "lists", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @JsonIgnore
+//    @JsonBackReference
+    private Set<User> users;
 
     @CreationTimestamp
     private Date createdAt;
 
     @UpdateTimestamp
     private Date updatedAt;
+
+    public void addListItem(ListItem listItem) {
+        listItems.add(listItem);
+    }
+
+    public void addUser(User user) {
+        users.add(user);
+    }
+
 
 }

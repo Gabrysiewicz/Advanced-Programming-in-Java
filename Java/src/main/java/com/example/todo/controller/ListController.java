@@ -5,10 +5,14 @@ import com.example.todo.service.ListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @RestController
 public class ListController {
+
     @Autowired
     private ListService service;
+
     @PostMapping("/addList")
     public List addList(@RequestBody List list) {
         return service.saveList(list);
@@ -34,7 +38,7 @@ public class ListController {
         return service.getListByHash(hash);
     }
 
-    @PutMapping("/upadate")
+    @PutMapping("/update")
     public List updateList(@RequestBody List list) {
         return service.updateList(list);
     }
@@ -42,5 +46,11 @@ public class ListController {
     @DeleteMapping("/delete/{id}")
     public String deleteList(@PathVariable int id) {
         return service.deleteList(id);
+    }
+
+    @PutMapping("/list/{listId}/user/{userId}")
+    public List assignListToUser(@PathVariable int userId, @PathVariable int listId) {
+        System.out.println("controller");
+        return service.assignListToUser(userId, listId);
     }
 }
