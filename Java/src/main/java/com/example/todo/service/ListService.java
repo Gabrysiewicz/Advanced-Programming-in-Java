@@ -16,12 +16,6 @@ public class ListService {
 
 
     public List saveList(List list) {
-//        // TODO: fix this
-//        User user = userRepository.findById(id).orElse(null);
-//        UsersLists usersLists = new UsersLists();
-//        usersLists.setUser(user);
-//        usersLists.setList(list);
-//        assocRepository.save(usersLists);
         return repository.save(list);
     }
 
@@ -34,6 +28,7 @@ public class ListService {
     }
 
     public List getListById(int id) {
+        System.out.println("siema");
         return repository.findById(id).orElse(null);
     }
 
@@ -52,6 +47,11 @@ public class ListService {
         existing.setHash(list.getHash());
         existing.setIsFavorite(list.getIsFavorite());
         return repository.save(existing);
+    }
+
+    public java.util.List<ListItem> getItemsByListId(int listId) {
+        List existing = repository.findById(listId).orElse(null);
+        return existing.getListItems().stream().toList();
     }
 
     public List assignListToUser(int userId, int listId) {
