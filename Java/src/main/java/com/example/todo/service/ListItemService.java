@@ -42,4 +42,8 @@ public class ListItemService {
         itemRepository.deleteById(itemId);
         return "Deleted item:" + itemId;
     }
+
+    public ListItem getItemById(int id) {
+        return itemRepository.findById(id).orElse(null);
+    }
 }

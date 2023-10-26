@@ -32,4 +32,9 @@ public class ListItemController {
     public String deleteItemById(@PathVariable int id) {
         return listItemService.deleteItemById(id);
     }
+
+    @GetMapping("/item/{id}")
+    public ListItem getItemById(@PathVariable int id) {
+        return listItemService.getItemById(id);
+    }
 }
