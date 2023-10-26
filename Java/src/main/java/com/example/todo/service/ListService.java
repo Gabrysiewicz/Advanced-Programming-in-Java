@@ -28,7 +28,6 @@ public class ListService {
     }
 
     public List getListById(int id) {
-        System.out.println("siema");
         return repository.findById(id).orElse(null);
     }
 
