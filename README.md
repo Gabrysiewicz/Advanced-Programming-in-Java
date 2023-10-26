@@ -2,7 +2,7 @@
 
 ## Database
 
-Baza danych zawiera 3 tabele:
+Baza danych zawiera 4 tabele:
  - Users
    - Dane użytkowników niezbędne do logowania: email, password(hash)
    - Dane użytkowników do identyfikacji: Name, Surname, ProfilePicture(hash)
@@ -19,7 +19,9 @@ Baza danych zawiera 3 tabele:
    - Klucz obcy wskazujący na listę do której przynależy item
    - Dane do określenia zawartości : Name, isDone, Description
    - Dane dla administratora: createdAt, updatedAt
-
+ - Users_has_List
+   - Tabela pośrednia
+     
 Wszystkie pola za wyjątkiem `Description` w `ListItem` są wymagane. Każda tabela posiada klucz główny o atrybucie `Auto Increament`
 
 <p align='center'>
