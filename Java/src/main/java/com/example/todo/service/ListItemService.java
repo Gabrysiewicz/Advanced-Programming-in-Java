@@ -37,4 +37,9 @@ public class ListItemService {
         }
         return item;
     }
+
+    public String deleteItemById(int itemId) {
+        itemRepository.deleteById(itemId);
+        return "Deleted item:" + itemId;
+    }
 }

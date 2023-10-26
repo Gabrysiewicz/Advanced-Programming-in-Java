@@ -14,12 +14,12 @@ public class ListController {
     @Autowired
     private ListService service;
 
-    @PostMapping("/addList")
+    @PostMapping("/list")
     public List addList(@RequestBody List list) {
         return service.saveList(list);
     }
 
-    @PostMapping("/addLists")
+    @PostMapping("/lists")
     public java.util.List<List> addLists(@RequestBody java.util.List<List> lists) {
         return service.saveLists(lists);
     }
@@ -29,12 +29,12 @@ public class ListController {
         return service.getLists();
     }
 
-    @GetMapping("/list/{id}/items")
+    @GetMapping("/list/id/{id}")
     public List findListById(@PathVariable int id) {
         return service.getListById(id);
     }
 
-    @GetMapping("/list/{hash}")
+    @GetMapping("/list/hash/{hash}")
     public List findListByHash(@PathVariable String hash) {
         return service.getListByHash(hash);
     }

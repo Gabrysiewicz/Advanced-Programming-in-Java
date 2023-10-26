@@ -13,18 +13,23 @@ public class ListItemController {
     @Autowired
     ListItemService listItemService;
 
-    @PostMapping("/addListItem")
+    @PostMapping("/item")
     public ListItem addListItem(@RequestBody ListItem listItem) {
         return listItemService.saveListItem(listItem);
     }
 
-    @PutMapping("/items/{itemId}/assign-to-list/{listId}")
+    @PutMapping("/items/{itemId}/list/{listId}")
     public ListItem assignToList(@PathVariable int itemId, @PathVariable int listId) {
         return listItemService.assignItemToList(itemId, listId);
     }
 
-    @GetMapping("/listItems")
+    @GetMapping("/items")
     public List<ListItem> getListItems() {
         return listItemService.getListItems();
+    }
+
+    @DeleteMapping("/item/{id}")
+    public String deleteItemById(@PathVariable int id) {
+        return listItemService.deleteItemById(id);
     }
 }
