@@ -61,6 +61,33 @@
 			"response": []
 		},
 		{
+			"name": "addListItem",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"trzeci item\",\r\n    \"isDone\": 1,\r\n    \"description\": \"opis\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/item",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "getUsers",
 			"request": {
 				"method": "GET",
@@ -97,54 +124,6 @@
 			"response": []
 		},
 		{
-			"name": "addListItem",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"trzeci item\",\r\n    \"isDone\": 1,\r\n    \"description\": \"opis\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:8080/item",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"item"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "assignItemToList",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": {
-					"raw": "localhost:8080/items/2/list/1",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"items",
-						"2",
-						"list",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "getListItems",
 			"request": {
 				"method": "GET",
@@ -157,27 +136,6 @@
 					"port": "8080",
 					"path": [
 						"items"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "assignUserToList",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": {
-					"raw": "localhost:8080/user/2/list/1",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"user",
-						"2",
-						"list",
-						"1"
 					]
 				}
 			},
@@ -223,6 +181,68 @@
 			"response": []
 		},
 		{
+			"name": "getItemsByListId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/list/1/items",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"list",
+						"1",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "assignItemToList",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/items/2/list/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"items",
+						"2",
+						"list",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "assignUserToList",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/user/2/list/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"2",
+						"list",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "updateList",
 			"request": {
 				"method": "PUT",
@@ -244,6 +264,44 @@
 					"port": "8080",
 					"path": [
 						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteItem",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/item/202",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"item",
+						"202"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteList",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/list/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"list",
+						"1"
 					]
 				}
 			},

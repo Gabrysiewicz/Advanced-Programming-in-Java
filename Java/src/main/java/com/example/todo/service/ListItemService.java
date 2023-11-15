@@ -6,6 +6,7 @@ import com.example.todo.repository.ListItemRepository;
 import com.example.todo.repository.ListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ListItemService {
@@ -38,6 +39,7 @@ public class ListItemService {
         return item;
     }
 
+    @Transactional // for deletion to work in bidirectional
     public String deleteItemById(int itemId) {
         itemRepository.deleteById(itemId);
         return "Deleted item:" + itemId;

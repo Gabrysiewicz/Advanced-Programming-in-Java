@@ -31,14 +31,13 @@ public class List {
     @JsonManagedReference
     @EqualsAndHashCode.Exclude()
     @ToString.Exclude
-    @OneToMany(mappedBy = "list", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "list", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private Set<ListItem> listItems;
 
     @ManyToMany(mappedBy = "lists", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
-//    @JsonBackReference
     private Set<User> users;
 
     @CreationTimestamp

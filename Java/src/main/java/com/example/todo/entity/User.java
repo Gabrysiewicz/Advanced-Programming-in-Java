@@ -21,14 +21,11 @@ public class User {
     @GeneratedValue
     private int id;
 
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "users_lists",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "list_id"))
-//    @JsonManagedReference
-//    @JsonIgnore
     @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
     private Set<List> lists;
 
     public void addList(List list) {
