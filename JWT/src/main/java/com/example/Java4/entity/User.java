@@ -35,6 +35,13 @@ public class User implements UserDetails {
     )
     private Set<Role> authorities;
 
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "users_lists",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "list_id"))
+    @EqualsAndHashCode.Exclude
+    private Set<List> lists;
+
     @CreationTimestamp
     private Date createdAt;
 
@@ -48,6 +55,11 @@ public class User implements UserDetails {
         this.password = password;
         this.authorities = authorities;
     }
+
+    public void addList(List list) {
+        lists.add(list);
+    }
+
     public Integer getUserId(){
         return this.id;
     }
