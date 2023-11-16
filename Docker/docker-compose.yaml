@@ -3,7 +3,7 @@ version: '3.8'
 services:
   mysql:
     image: mysql:8.1.0
-    container_name: java_db
+    container_name: todo_list
     environment:
       MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
       MYSQL_ROOT_HOST: '%'
