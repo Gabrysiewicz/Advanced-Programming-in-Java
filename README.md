@@ -1,5 +1,8 @@
 # Zaawansowane-programowanie-w-Javie
 
+## JWT
+this: `https://www.youtube.com/watch?v=TeBt0Ike_Tk`
+
 ## Database
 
 Baza danych zawiera 4 tabele:
