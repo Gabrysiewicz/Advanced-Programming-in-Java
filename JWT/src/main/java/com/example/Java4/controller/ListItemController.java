@@ -36,4 +36,9 @@ public class ListItemController {
     public ListItem getItemById(@PathVariable int id) {
         return listItemService.getItemById(id);
     }
+
+    @PutMapping("/item")
+    public ListItem updateListItem(@RequestBody ListItem item) {
+        return listItemService.updateListItem(item);
+    }
 }

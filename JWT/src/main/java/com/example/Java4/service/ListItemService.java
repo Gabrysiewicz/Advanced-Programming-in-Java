@@ -20,6 +20,10 @@ public class ListItemService {
         return itemRepository.save(listItem);
     }
 
+    public ListItem updateListItem(ListItem item) {
+        return itemRepository.save(item);
+    }
+
     public java.util.List<ListItem> getListItems() {
         return itemRepository.findAll();
     }
