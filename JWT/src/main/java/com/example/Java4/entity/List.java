@@ -15,11 +15,11 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "Lists")
+@Builder
 public class List {
     @Id
     @GeneratedValue
     private int id;
-
 
     private String hash;
 

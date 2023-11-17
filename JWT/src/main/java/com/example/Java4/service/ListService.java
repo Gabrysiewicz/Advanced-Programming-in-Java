@@ -43,15 +43,12 @@ public class ListService {
     }
 
     public List updateList(List list) {
-        List existing = repository.findById(list.getId()).orElse(null);
-//        assert existing != null;
-        existing.setHash(list.getHash());
-        existing.setIsFavorite(list.getIsFavorite());
-        return repository.save(existing);
+        return repository.save(list);
     }
 
     public java.util.List<ListItem> getItemsByListId(int listId) {
         List existing = repository.findById(listId).orElse(null);
+        if(existing == null) return null;
         return existing.getListItems().stream().toList();
     }
 
