@@ -3,6 +3,7 @@ package com.example.Java4.controller;
 import com.example.Java4.entity.User;
 import com.example.Java4.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,12 +20,15 @@ public class UserController {
         return service.saveUser(user);
     }
 
+
+    // todo: zabierz my to, tylko dla admina
     @PostMapping("/users")
     public List<User> addUsers(@RequestBody List<User> users) {
         return service.saveUsers(users);
     }
 
     @GetMapping("/users")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<User> findAllUsers() {
         return service.getUsers();
     }
