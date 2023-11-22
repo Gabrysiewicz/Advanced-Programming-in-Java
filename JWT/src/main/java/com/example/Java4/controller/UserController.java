@@ -15,35 +15,35 @@ public class UserController {
     @Autowired
     private UserService service;
 
-    @PostMapping("/user")
+    @PostMapping("/") // localhost:8080/user
     public User addUser(@RequestBody User user) {
         return service.saveUser(user);
     }
 
 
     // todo: zabierz my to, tylko dla admina
-    @PostMapping("/users")
+    @PostMapping("/s")  // localhost:8080/user/s
     public List<User> addUsers(@RequestBody List<User> users) {
         return service.saveUsers(users);
     }
 
-    @GetMapping("/users")
+    @GetMapping("/s")  // localhost:8080/user/s
     @PreAuthorize("hasRole('ADMIN')")
     public List<User> findAllUsers() {
         return service.getUsers();
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/{id}")  // localhost:8080/user/1
     public User findUserById(@PathVariable int id) {
         return service.getUserById(id);
     }
 
-    @PutMapping("/user")
+    @PutMapping("/")  // localhost:8080/user
     public User updateUser(@RequestBody User user) {
         return service.updateUser(user);
     }
 
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/{id}")  // localhost:8080/user/1
     public String deleteUser(@PathVariable int id) {
         return service.deleteUser(id);
     }

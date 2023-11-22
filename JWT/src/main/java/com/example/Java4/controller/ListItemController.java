@@ -7,37 +7,38 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequestMapping("/item")
 @RestController
 public class ListItemController {
     @Autowired
     ListItemService listItemService;
 
-    @PostMapping("/item")
+    @PostMapping("/") // localhost:8080/item
     public ListItem addListItem(@RequestBody ListItem listItem) {
         return listItemService.saveListItem(listItem);
     }
 
-    @PutMapping("/items/{itemId}/list/{listId}")
+    @PutMapping("/{itemId}/list/{listId}")  // localhost:8080/item/1/list/1
     public ListItem assignToList(@PathVariable int itemId, @PathVariable int listId) {
         return listItemService.assignItemToList(itemId, listId);
     }
 
-    @GetMapping("/items")
+    @GetMapping("/s")  // localhost:8080/items
     public List<ListItem> getListItems() {
         return listItemService.getListItems();
     }
 
-    @DeleteMapping("/item/{id}")
+    @DeleteMapping("/{id}")  // localhost:8080/item/1
     public String deleteItemById(@PathVariable int id) {
         return listItemService.deleteItemById(id);
     }
 
-    @GetMapping("/item/{id}")
+    @GetMapping("/{id}")  // localhost:8080/item/1
     public ListItem getItemById(@PathVariable int id) {
         return listItemService.getItemById(id);
     }
 
-    @PutMapping("/item")
+    @PutMapping("/")  // localhost:8080/item
     public ListItem updateListItem(@RequestBody ListItem item) {
         return listItemService.updateListItem(item);
     }
