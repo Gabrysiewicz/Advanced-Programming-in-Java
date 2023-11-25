@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -29,13 +30,13 @@ public class List {
     @EqualsAndHashCode.Exclude()
     @ToString.Exclude
     @OneToMany(mappedBy = "list", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-    private Set<ListItem> listItems;
+    private Set<ListItem> listItems =  new HashSet<>();
 
     @ManyToMany(mappedBy = "lists", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
-    private Set<User> users;
+    private Set<User> users =  new HashSet<>();
 
     @CreationTimestamp
     private Date createdAt;

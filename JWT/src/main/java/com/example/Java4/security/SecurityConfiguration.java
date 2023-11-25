@@ -20,10 +20,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
+import org.springframework.security.oauth2.jwt.*;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
@@ -102,4 +99,20 @@ public class SecurityConfiguration {
         jwtConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
         return jwtConverter;
     }
+
+    public RSAKeyProperties getKeys(){
+        return this.keys;
+    }
+    public int getUserIdFromJwt(String jwtToken) {
+        try {
+            Jwt jwt = jwtDecoder().decode(jwtToken);
+
+            // Extract the userId from the JWT claims
+            return jwt.getClaim("userId");
+        } catch (JwtException e) {
+            // Handle exception (e.g., invalid JWT)
+            throw new RuntimeException("Failed to decode JWT", e);
+        }
+    }
+
 }

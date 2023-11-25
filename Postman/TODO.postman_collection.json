@@ -37,33 +37,6 @@
 					"response": []
 				},
 				{
-					"name": "addUser useless",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"user3\",\r\n    \"password\": \"trudnehaslo\",\r\n    \"name\": \"user2\",\r\n    \"surname\": \"NazwiskoTest\",\r\n    \"profilePicture\": \"/test/pic.png\"\r\n\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:8080/user",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"user"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "addListItem",
 					"request": {
 						"method": "POST",
@@ -89,6 +62,33 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "addUser useless",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"user3\",\r\n    \"password\": \"trudnehaslo\",\r\n    \"name\": \"user2\",\r\n    \"surname\": \"NazwiskoTest\",\r\n    \"profilePicture\": \"/test/pic.png\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/user",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -98,16 +98,27 @@
 				{
 					"name": "Users",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiYWRtaW4iLCJpYXQiOjE3MDA2NjA5MTgsInJvbGVzIjoiQURNSU4ifQ.pX7Dcbt3Nr2MoSl_iW-FISehETWmLwzzzwrRHTRnhAJBcaJ2b3D4xIcJJsDep_259rBKYWY1fT5-rCA3J6OP8fo70nPaPeCeSHRaUvsNo4oodLsZKvu18Nnck5wnuQ_Uk7biVbBBP0nXJUUssyzdUb_FJ2awsUaTX3tHCOfMdfi6DinwQo6UTvf2Pvv2xOkblQadO56GkvCAGA3yK5NkMJ3ZbTa39g2izXxflpb1vbFxw5h9iafnIS9vowpBtx2qFz-6mpdhItqV6ZIrZebecBjJE_S8G1IdcxgnLH-nNBd5z3HDx1Hm9SSBfAkCKbg2YgsIVN9Fgiq6qaxKuwWqIw",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/users",
+							"raw": "localhost:8080/user/s",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"users"
+								"user",
+								"s"
 							]
 						}
 					},
@@ -152,10 +163,21 @@
 				{
 					"name": "List",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoic2xvd2Fja2kiLCJpYXQiOjE3MDA5NTIxNzIsInVzZXJJZCI6Mywicm9sZXMiOiJVU0VSIn0.ApXNSH7NWxKHtfKHe8Mv1ESlx4H-V3AVqg1v_NcDilCfsj3VD4GBF4RTzPYCefga8NO_-woaT6s2ebtymdkSeO-ugpKa0jR--7Ol7xqkuChAFP8Xz-e8fCm0QQ-6IUFx0_N_KXBbtKr4YOZjjxv3AaHAJt4QJF-pEy-WHIsBAoQofkBcOAZvGnO2MPvHPbTNDadAVLHim8PXhhZrUh9x1XF8Ar7lAZj3Ekf6iVPLq-SNM06lJCi-n1ZnvyeY8y3zOPLf5283CNQwr6hSLyNLQcJ1LvrQn3XC2jAVItlQhi12n5Lua5j4XpiMDN4GSz3S4NxzMq78tc6T9DOk88Gx3Q",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/list/id/1",
+							"raw": "http://localhost:8080/list/id/1",
+							"protocol": "http",
 							"host": [
 								"localhost"
 							],
@@ -214,6 +236,37 @@
 			"name": "PUT",
 			"item": [
 				{
+					"name": "assignUserToList",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoibWlja2lld2ljeiIsImlhdCI6MTcwMDk0NjYzNiwidXNlcklkIjoyLCJyb2xlcyI6IlVTRVIifQ.azhEgzcHuYv0Wy8DfbIgIF9Lif3dCLdHxiQDWZX-3Z5ok8d8skwPkC0YguxANUMiO5RoaT3_Pkm5rpVDcTQszq2quWMGMaI280DuBaZSXKReufcD3uTA1UuS8E3I2CwIAWoxJFzHXARSpKbKq3CoIN7N3CFE3fyO7RTVeIlhNUcEqBhX1Maw4M_kpRGTv_IVTtS4E976pirecR3T48L0b-Myhf52dv3QHIjREZa2HNTz8M_OJqAW4-P7gPknXzmTWKpnhMtLrac9N56zDpHV9QOv8JhCIdG0zGe7lTP0VmawI2FUVSm1VV6zdtl6oryudKeB-kmKnBRK3ZgxXVrpuQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/list/1/user/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"list",
+								"1",
+								"user",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "assignItemToList",
 					"request": {
 						"method": "PUT",
@@ -226,27 +279,6 @@
 							"port": "8080",
 							"path": [
 								"items",
-								"2",
-								"list",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "assignUserToList",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"url": {
-							"raw": "localhost:8080/user/2/list/1",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"user",
 								"2",
 								"list",
 								"1"
@@ -277,6 +309,34 @@
 							"port": "8080",
 							"path": [
 								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateItem",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"mickiewicz & slowacki item 1\",\r\n    \"isDone\": 0,\r\n    \"description\": \"desc\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/item/",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"item",
+								""
 							]
 						}
 					},
@@ -400,13 +460,13 @@
 					"response": []
 				},
 				{
-					"name": "Register",
+					"name": "Register Mickiewicz",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"amickiewicz@wp.pl\",\r\n    \"password\": \"password\"\r\n}",
+							"raw": "{\r\n    \"email\": \"amickiewicz@wp.pl\",\r\n    \"username\": \"amickiewicz@wp.pl\",\r\n    \"password\": \"password\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -429,13 +489,71 @@
 					"response": []
 				},
 				{
-					"name": "Login User",
+					"name": "Register Slowacki",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"amickiewicz@wp.pl\",\r\n    \"password\": \"password\"\r\n}",
+							"raw": "{\r\n    \"email\": \"jslowacki@wp.pl\",\r\n    \"username\": \"slowacki\",\r\n    \"password\": \"lubiwacki\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login User Mickiewicz",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"mickiewicz\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login User Slowacki",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"slowacki\",\r\n    \"password\": \"lubiwacki\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

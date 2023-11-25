@@ -2,9 +2,19 @@ package com.example.Java4.controller;
 
 import com.example.Java4.entity.List;
 import com.example.Java4.entity.ListItem;
+import com.example.Java4.repository.UsersListsRepository;
 import com.example.Java4.service.ListService;
+import com.example.Java4.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
+import com.example.Java4.service.TokenService;
+import com.example.Java4.security.SecurityConfiguration;
+import com.example.Java4.utils.Functions;
 
 @RequestMapping("/list")
 @RestController
@@ -12,10 +22,29 @@ public class ListController {
 
     @Autowired
     private ListService service;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private UsersListsRepository usersListsRepository;
 
-    @PostMapping("/")  // localhost:8080/list
-    public List addList(@RequestBody List list) {
-        return service.saveList(list);
+    private final SecurityConfiguration securityConfiguration;
+
+    @Autowired
+    public ListController(SecurityConfiguration securityConfiguration) {
+        this.securityConfiguration = securityConfiguration;
+    }
+
+    @PostMapping("/")  // localhost:8080/list/
+    public List addList(@RequestBody List list,  Authentication authentication) {
+        JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) authentication;
+        String jwtToken = Functions.extractJwtToken(jwtAuthenticationToken);
+
+        int userId = TokenService.getUserIdFromToken(jwtToken);
+
+        List newList = service.saveList(list);
+        assignListToUserIllegal(userId, newList.getId());
+        System.out.println(newList);
+        return newList;
     }
 
     @PostMapping("/s")  // localhost:8080/list/s
@@ -23,39 +52,108 @@ public class ListController {
         return service.saveLists(lists);
     }
 
+    // ADMIN
     @GetMapping("/s")   // localhost:8080/list/s
     public java.util.List<List> findAllLists() {
         return service.getLists();
     }
 
-    @GetMapping("/id/{id}")  // localhost:8080/list/id/1
-    public List findListById(@PathVariable int id) {
-        return service.getListById(id);
+//    @GetMapping("/id/{id}")  // localhost:8080/list/id/1
+//    public List findListById(@PathVariable int id) {
+//        return service.getListById(id);
+//    }
+    @GetMapping("/id/{id}")
+    public ResponseEntity<List> findListById(@PathVariable int id, Authentication authentication) {
+        JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) authentication;
+        String jwtToken = Functions.extractJwtToken(jwtAuthenticationToken);
+
+        int userId = TokenService.getUserIdFromToken(jwtToken);
+        if (hasUserAccessToList(userId, id)) {
+            System.out.println("List does belong to a user: ");
+            List list = service.getListById(id);
+            return ResponseEntity.ok(list);
+        }
+        System.out.println("List does NOT belong to a user: ");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+    }
+    private boolean hasUserAccessToList(int userId, int listId) {
+        // Check if the user has access to the list
+        return service.doesListBelongToUser(listId, userId);
     }
 
-    @GetMapping("/hash/{hash}")  // localhost:8080/list/hash/qwer1234QWER!@#$
-    public List findListByHash(@PathVariable String hash) {
-        return service.getListByHash(hash);
+    @GetMapping("/{id}/{hash}")  // localhost:8080/list/2/qwer1234QWER!@#$
+    public ResponseEntity<List> findListByHash(@PathVariable Integer id, @PathVariable String hash, Authentication authentication) {
+        JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) authentication;
+        String jwtToken = Functions.extractJwtToken(jwtAuthenticationToken);
+
+        int userId = TokenService.getUserIdFromToken(jwtToken);
+        if (hasUserAccessToList(userId, id)) {
+            System.out.println("List does belong to a user: ");
+            List list = service.getListByHash(hash);
+            return ResponseEntity.ok(list);
+        }
+        System.out.println("List does NOT belong to a user: ");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
     @PutMapping("/")  // localhost:8080/list
-    public List updateList(@RequestBody List list) {
-        return service.updateList(list);
+    public ResponseEntity<List> updateList(@RequestBody List list, Authentication authentication) {
+        JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) authentication;
+        String jwtToken = Functions.extractJwtToken(jwtAuthenticationToken);
+
+        int userId = TokenService.getUserIdFromToken(jwtToken);
+        int id = list.getId();
+        if (hasUserAccessToList(userId, id)) {
+            System.out.println("List does belong to a user: ");
+            List updatedList = service.updateList(list);
+            return ResponseEntity.ok(updatedList);
+        }
+        System.out.println("List does NOT belong to a user: ");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
     @DeleteMapping("/{id}")  // localhost:8080/list/1
-    public String deleteList(@PathVariable int id) {
-        return service.deleteList(id);
+    public ResponseEntity<List> deleteList(@PathVariable int id, Authentication authentication) {
+        JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) authentication;
+        String jwtToken = Functions.extractJwtToken(jwtAuthenticationToken);
+
+        int userId = TokenService.getUserIdFromToken(jwtToken);
+        if (hasUserAccessToList(userId, id)) {
+            System.out.println("List does belong to a user: ");
+            service.deleteList(id); // delete nie zwraca boolean; xD
+            return ResponseEntity.ok(null);
+        }
+        System.out.println("List does NOT belong to a user: ");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
-    @PutMapping("/{listId}/user/{userId}")  // localhost:8080/list/1/user/1
-    public List assignListToUser(@PathVariable int userId, @PathVariable int listId) {
-        System.out.println("controller");
+    @PostMapping("/{listId}/user/{userId}")  // localhost:8080/list/1/user/1
+    public ResponseEntity<List> assignListToUser(@PathVariable int userId, @PathVariable int listId, Authentication authentication) {
+        JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) authentication;
+        String jwtToken = Functions.extractJwtToken(jwtAuthenticationToken);
+
+        int userIdJwt = TokenService.getUserIdFromToken(jwtToken);
+        if (hasUserAccessToList(userIdJwt, listId)) {
+            List list = service.assignListToUser(userId, listId);
+            return ResponseEntity.ok(list);
+        }
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+    }
+    private List assignListToUserIllegal(@PathVariable int userId, @PathVariable int listId) {
         return service.assignListToUser(userId, listId);
     }
-
     @GetMapping("/{listId}/items")  // localhost:8080/list/1/items
-    public java.util.List<ListItem> getItemsByListId(@PathVariable int listId) {
-        return service.getItemsByListId(listId);
+    public ResponseEntity<java.util.List<ListItem>> getItemsByListId(@PathVariable int listId, Authentication authentication) {
+        JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) authentication;
+        String jwtToken = Functions.extractJwtToken(jwtAuthenticationToken);
+
+        int userId = TokenService.getUserIdFromToken(jwtToken);
+        if (hasUserAccessToList(userId, listId)) {
+            System.out.println("List does belong to a user: ");
+            java.util.List<ListItem> list = service.getItemsByListId(listId);
+            return ResponseEntity.ok(list);
+        }
+        System.out.println("List does NOT belong to a user: ");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 }

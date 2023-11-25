@@ -52,4 +52,9 @@ public class ListItemService {
     public ListItem getItemById(int id) {
         return itemRepository.findById(id).orElse(null);
     }
+
+    public boolean doesItemBelongToList(int itemId, int listId) {
+        // Check if the list with the given ID belongs to the user with the specified username
+        return itemRepository.existsByIdAndListId(listId, listId);
+    }
 }

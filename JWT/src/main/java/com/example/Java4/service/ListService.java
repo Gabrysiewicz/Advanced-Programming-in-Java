@@ -32,7 +32,14 @@ public class ListService {
     public List getListById(int id) {
         return repository.findById(id).orElse(null);
     }
-
+    public boolean doesListBelongToUser(int listId, String username) {
+        // Check if the list with the given ID belongs to the user with the specified username
+        return repository.existsByIdAndUsersUsername(listId, username);
+    }
+    public boolean doesListBelongToUser(int listId, int userId) {
+        // Check if the list with the given ID belongs to the user with the specified username
+        return repository.existsByIdAndUsersId(listId, userId);
+    }
     public List getListByHash(String hash) {
         return repository.findByHash(hash);
     }

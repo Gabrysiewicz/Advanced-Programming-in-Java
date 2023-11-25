@@ -11,7 +11,6 @@ public class LoginResponseDTO {
         this.user = user;
         this.jwt = jwt;
     }
-
     public User getUser(){
         return this.user;
     }
@@ -21,7 +20,6 @@ public class LoginResponseDTO {
     public String getJwt(){
         return this.jwt;
     }
-
     public void setJwt(String jwt){
         this.jwt = jwt;
     }

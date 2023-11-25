@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -24,9 +23,11 @@ public class User implements UserDetails {
     @Column(name="user_id")
     private Integer id;
 
-
     @Column(unique = true)
     private String username;
+    @Column(unique = true)
+    private String email;
+
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -50,9 +51,10 @@ public class User implements UserDetails {
     @UpdateTimestamp
     private Date updatedAt;
 
-    public User(Integer id, String username, String password, Set<Role> authorities){
+    public User(Integer id, String email, String username, String password, Set<Role> authorities){
         super();
         this.id = id;
+        this.email = email;
         this.username = username;
         this.password = password;
         this.authorities = authorities;
@@ -61,7 +63,6 @@ public class User implements UserDetails {
     public void addList(List list) {
         lists.add(list);
     }
-
     public Integer getUserId(){
         return this.id;
     }
@@ -92,6 +93,12 @@ public class User implements UserDetails {
     }
     public void setUsername(String username) {
         this.username = username;
+    }
+    public String getEmail() {
+        return this.email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override

@@ -16,12 +16,10 @@ import java.util.List;
 public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository repository;
-
     @Autowired
     private PasswordEncoder encoder;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
         return repository.findByUsername(username).orElseThrow( () -> new UsernameNotFoundException("user is not valid"));
     }
 

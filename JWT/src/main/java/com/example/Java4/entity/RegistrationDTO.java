@@ -1,6 +1,7 @@
 package com.example.Java4.entity;
 
 public class RegistrationDTO {
+    private String email;
     private String username;
     private String password;
 
@@ -8,10 +9,17 @@ public class RegistrationDTO {
         super();
     }
 
-    public RegistrationDTO(String username, String password){
+    public RegistrationDTO(String email, String username, String password){
         super();
+        this.email = email;
         this.username = username;
         this.password = password;
+    }
+    public String getEmail(){
+        return this.email;
+    }
+    public void setEmail(String email){
+        this.email = email;
     }
     public String getUsername(){
         return this.username;
@@ -28,6 +36,6 @@ public class RegistrationDTO {
     }
 
     public String toString(){
-        return "Registration info: username" + this.username + ", password: " + this.password;
+        return "Registration info: email" + this.email + ", username: "+ this.username + ", password: " + this.password;
     }
 }
