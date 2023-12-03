@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 import com.example.Java4.service.TokenService;
@@ -57,7 +56,14 @@ public class ListController {
     public java.util.List<List> findAllLists() {
         return service.getLists();
     }
+    @GetMapping("/u")   // localhost:8080/list/u
+    public java.util.List<List> findAllListsForUser(Authentication authentication) {
+        JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) authentication;
+        String jwtToken = Functions.extractJwtToken(jwtAuthenticationToken);
 
+        int userId = TokenService.getUserIdFromToken(jwtToken);
+        return service.getListsForUser(userId);
+    }
 //    @GetMapping("/id/{id}")  // localhost:8080/list/id/1
 //    public List findListById(@PathVariable int id) {
 //        return service.getListById(id);
