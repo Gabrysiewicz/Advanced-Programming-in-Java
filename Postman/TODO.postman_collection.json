@@ -236,36 +236,6 @@
 					"response": []
 				},
 				{
-					"name": "Lists for User",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoic2xvd2Fja2kiLCJpYXQiOjE3MDE2MjQyNzUsInVzZXJJZCI6Mywicm9sZXMiOiJVU0VSIn0.Ou3JQG_yTipCmCuSPRaNTadOXX7hi9mjVkLWSd3AGP3oJ1P4VuEzT35J-UUvUl9A-SXS83-sxZr-Z2bd2TEEC8eRDMQSiysUf-NpctpBBmFKB3-E-CAP8JP_VvClBuAi8DK1Kh5dXa_NrD7x4MCRIy9Z3L-A7RD5LnBOBQDvEfG8w0xVi2jQiXOjA3TzZiBe05KPKNvNm_DJh1qWufZCCfAiGijjbuzKFyXg_MFH__eQBABYnwfrMCPYYeejnwEQnxEeu7aXHMoSCLQLqdoEUnpZkWpl_e8napeiJB0_uZwhnHW-16PpbaXEun0bbcRNy_L-sckGf1KD535RGSeS0Q",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/list/u",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"list",
-								"u"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Item",
 					"request": {
 						"auth": {
