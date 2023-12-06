@@ -57,6 +57,14 @@ public class ListController {
     public java.util.List<List> findAllLists() {
         return service.getLists();
     }
+    @GetMapping("/u")   // localhost:8080/list/u
+    public java.util.List<List> findAllListsForUser(Authentication authentication) {
+        JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) authentication;
+        String jwtToken = Functions.extractJwtToken(jwtAuthenticationToken);
+
+        int userId = TokenService.getUserIdFromToken(jwtToken);
+        return service.getListsForUser(userId);
+    }
 
     @GetMapping("/id/{id}")
     public ResponseEntity<List> findListById(@PathVariable int id, Authentication authentication) {
@@ -115,7 +123,7 @@ public class ListController {
         int userId = TokenService.getUserIdFromToken(jwtToken);
         if (hasUserAccessToList(userId, id)) {
             System.out.println("List does belong to a user: ");
-            service.deleteList(id);
+            service.deleteList(id); // delete nie zwraca boolean; xD
             return ResponseEntity.ok(null);
         }
         System.out.println("List does NOT belong to a user: ");

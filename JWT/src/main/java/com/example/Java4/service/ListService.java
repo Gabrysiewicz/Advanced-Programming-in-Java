@@ -3,10 +3,14 @@ package com.example.Java4.service;
 import com.example.Java4.entity.List;
 import com.example.Java4.entity.ListItem;
 import com.example.Java4.entity.User;
+import com.example.Java4.entity.UserList;
 import com.example.Java4.repository.ListRepository;
 import com.example.Java4.repository.UserRepository;
+import com.example.Java4.repository.UsersListsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 @Service
 public class ListService {
@@ -16,6 +20,8 @@ public class ListService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UsersListsRepository usersListsRepository;
 
     public List saveList(List list) {
         return repository.save(list);
@@ -27,6 +33,10 @@ public class ListService {
 
     public java.util.List<List> getLists() {
         return repository.findAll();
+    }
+    public java.util.List<List> getListsForUser(int userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        return new ArrayList<List>(user.getLists()) ;
     }
 
     public List getListById(int id) {
