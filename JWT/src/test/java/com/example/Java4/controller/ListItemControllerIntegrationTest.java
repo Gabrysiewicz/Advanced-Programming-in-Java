@@ -1,9 +1,12 @@
 package com.example.Java4.controller;
 
+import com.example.Java4.entity.List;
 import com.example.Java4.entity.ListItem;
 import com.example.Java4.entity.LoginResponseDTO;
 import com.example.Java4.entity.User;
 import com.example.Java4.repository.ListItemRepository;
+import com.example.Java4.repository.ListRepository;
+import com.example.Java4.repository.UserRepository;
 import com.example.Java4.service.AuthenticationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +19,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashSet;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,6 +43,12 @@ class ListItemControllerIntegrationTest {
 
     @Autowired
     private ListItemRepository repository;
+
+    @Autowired
+    private ListRepository listRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
 
     @Autowired
@@ -117,6 +128,33 @@ class ListItemControllerIntegrationTest {
     }
 
     @Test
-    void getItemById() {
+    void getItemById() throws Exception {
+        ListItem item = ListItem.builder()
+                .name("listItem")
+                .description("opis")
+                .isDone(false)
+                .build();
+        ListItem savedItem = repository.save(item);
+
+        List list = List.builder().isFavorite(true).name("basic").listItems(new HashSet<>()).build();
+        List savedList = listRepository.save(list);
+
+        savedItem.setList(savedList);
+        savedList.addListItem(savedItem);
+        listRepository.save(list);
+
+        User user1 = userRepository.findById(testUser.getId()).orElse(null);
+        user1.addList(list);
+        userRepository.save(user1);
+
+        System.out.println(listRepository.findAll().get(0).getListItems());
+
+        mvc.perform(get("/item/" + savedItem.getId())
+                        .header("Authorization", "Bearer " + token))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("listItem"))
+                .andExpect(jsonPath("$.description").value("opis"))
+                .andExpect(jsonPath("$.isDone").value(false));
     }
 }

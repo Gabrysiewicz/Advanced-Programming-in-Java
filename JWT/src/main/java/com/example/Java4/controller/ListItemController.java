@@ -70,15 +70,19 @@ public class ListItemController {
 
     @GetMapping("/{id}")  // localhost:8080/item/1
     public ResponseEntity<ListItem> getItemById(@PathVariable int id, Authentication authentication) {
-        // Get the token
         JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) authentication;
         String jwtToken = Functions.extractJwtToken(jwtAuthenticationToken);
-        // Get the userId
         int userId = TokenService.getUserIdFromToken(jwtToken);
-        // Authorize
-        if (hasUserAccessToList(userId, id)) {
+
+        ListItem item = listItemService.getItemById(id);
+        if(item == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        com.example.Java4.entity.List list = item.getList();
+
+        if (hasUserAccessToList(userId, list.getId())) {
             System.out.println("Item does belong to a user: ");
-            com.example.Java4.entity.ListItem item = listItemService.getItemById(id);
+
             return ResponseEntity.ok(item);
         }
         System.out.println("Item does NOT belong to a user: ");
