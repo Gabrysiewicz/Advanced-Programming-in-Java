@@ -22,7 +22,7 @@ public class List {
     @GeneratedValue
     private int id;
 
-    private String hash;
+    private String name;
 
     private Boolean isFavorite;
 

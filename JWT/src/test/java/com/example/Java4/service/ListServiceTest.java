@@ -41,7 +41,7 @@ class ListServiceTest {
     public void setup() {
         list = List.builder()
                 .id(1)
-                .hash("exampleHash")
+                .name("examplename")
                 .isFavorite(true)
                 .build();
     }
@@ -51,7 +51,7 @@ class ListServiceTest {
     void getLists() {
         var list1 = List.builder()
                 .id(1)
-                .hash("list1")
+                .name("list1")
                 .isFavorite(true)
                 .build();
 
@@ -78,11 +78,11 @@ class ListServiceTest {
     public void givenListObject_updateRepo() {
         given(listRepository.save(list)).willReturn(list);
 
-        list.setHash("new hash");
+        list.setName("new name");
         list.setIsFavorite(false);
         List updatedList = listService.updateList(list);
 
-        assertThat(updatedList.getHash()).isEqualTo("new hash");
+        assertThat(updatedList.getName()).isEqualTo("new name");
         assertThat(updatedList.getIsFavorite()).isEqualTo(false);
     }
 
@@ -114,7 +114,7 @@ class ListServiceTest {
     public void givenListOfListObjects_whenSaveLists_thenReturnListOfListObjects() {
         java.util.List<List> lists = Arrays.asList(
                 list,
-                List.builder().id(2).hash("inny hash").build()
+                List.builder().id(2).name("inny name").build()
         );
         given(listRepository.saveAll(lists)).willReturn(lists);
 

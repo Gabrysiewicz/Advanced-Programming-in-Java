@@ -98,7 +98,7 @@ class ListItemServiceTest {
 
         List list = List.builder()
                 .id(3)
-                .hash("listHash")
+                .name("listname")
                 .isFavorite(true)
                 .listItems(new HashSet<>())
                 .build();

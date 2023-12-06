@@ -73,7 +73,7 @@ class ListControllerIntegrationTest {
     @Test
     void getListById() throws Exception {
 
-        List list = List.builder().isFavorite(true).hash("abcd").build();
+        List list = List.builder().isFavorite(true).name("abcd").build();
         List saved = repository.save(list);
         User user1 = userRepository.findById(testUser.getId()).orElse(null);
 
@@ -86,14 +86,14 @@ class ListControllerIntegrationTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(saved.getId()))
-                .andExpect(jsonPath("$.hash").value("abcd"))
+                .andExpect(jsonPath("$.name").value("abcd"))
                 .andExpect(jsonPath("$.isFavorite").value(true));
     }
 
     @Test
     void getListByIdWhenListIsNotUsers() throws Exception {
 
-        List list = List.builder().isFavorite(true).hash("abcd").build();
+        List list = List.builder().isFavorite(true).name("abcd").build();
         List saved = repository.save(list);
         User user1 = userRepository.findById(testUser.getId()).orElse(null);
 
@@ -113,14 +113,14 @@ class ListControllerIntegrationTest {
     void addList() throws Exception {
 
 
-        List list = List.builder().hash("listhash").isFavorite(true).listItems(new HashSet<>()).users(new HashSet<User>(Arrays.asList(testUser))).build();
+        List list = List.builder().name("listname").isFavorite(true).listItems(new HashSet<>()).users(new HashSet<User>(Arrays.asList(testUser))).build();
         mvc.perform(MockMvcRequestBuilders.post("/list/")
                         .header("Authorization", "Bearer " + token)
 
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(list)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.hash").value("listhash"))
+                .andExpect(jsonPath("$.name").value("listname"))
                 .andExpect(jsonPath("$.isFavorite").value(true))
                 .andDo(print())
                 .andReturn();
@@ -132,14 +132,14 @@ class ListControllerIntegrationTest {
 
     @Test
     void updateList() throws Exception {
-        List list = List.builder().isFavorite(true).hash("basic").build();
+        List list = List.builder().isFavorite(true).name("basic").build();
         List saved = repository.save(list);
         User user1 = userRepository.findById(testUser.getId()).orElse(null);
 
         user1.addList(list);
         userRepository.save(user1);
 
-        saved.setHash("changed");
+        saved.setName("changed");
 
         mvc.perform(put("/list/")
                         .header("Authorization", "Bearer " + token)
@@ -148,15 +148,15 @@ class ListControllerIntegrationTest {
                 )
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.hash").value("changed"))
+                .andExpect(jsonPath("$.name").value("changed"))
                 .andExpect(jsonPath("$.isFavorite").value("true"));
 
     }
 
     @Test
     void getLists() throws Exception {
-        List list = List.builder().id(1).isFavorite(true).hash("test").build();
-        List list2 = List.builder().id(2).isFavorite(false).hash("xyz").users(new HashSet<>()).build();
+        List list = List.builder().id(1).isFavorite(true).name("test").build();
+        List list2 = List.builder().id(2).isFavorite(false).name("xyz").users(new HashSet<>()).build();
         LoginResponseDTO login = authenticationService.loginUser("admin", "password");
 
 
@@ -167,17 +167,17 @@ class ListControllerIntegrationTest {
         mvc.perform(get("/list/s")
                         .header("Authorization", "Bearer " + login.getJwt())
                 ).andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].hash").value("test"))
+                .andExpect(jsonPath("$[0].name").value("test"))
                 .andExpect(jsonPath("$[0].isFavorite").value(true))
-                .andExpect(jsonPath("$[1].hash").value("xyz"))
+                .andExpect(jsonPath("$[1].name").value("xyz"))
                 .andExpect(jsonPath("$[1].isFavorite").value(false));
 
     }
 
     @Test
     void getListsAsNotAdmin() throws Exception {
-        List list = List.builder().id(1).isFavorite(true).hash("test").build();
-        List list2 = List.builder().id(2).isFavorite(false).hash("xyz").users(new HashSet<>()).build();
+        List list = List.builder().id(1).isFavorite(true).name("test").build();
+        List list2 = List.builder().id(2).isFavorite(false).name("xyz").users(new HashSet<>()).build();
 
 
         repository.save(list);
@@ -193,7 +193,7 @@ class ListControllerIntegrationTest {
 
     @Test
     void deleteList() throws Exception {
-        List list = List.builder().isFavorite(true).hash("to be deleted").build();
+        List list = List.builder().isFavorite(true).name("to be deleted").build();
         List saved = repository.save(list);
         User user1 = userRepository.findById(testUser.getId()).orElse(null);
 
