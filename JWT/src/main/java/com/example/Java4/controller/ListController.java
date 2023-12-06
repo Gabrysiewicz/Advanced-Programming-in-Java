@@ -58,10 +58,6 @@ public class ListController {
         return service.getLists();
     }
 
-//    @GetMapping("/id/{id}")  // localhost:8080/list/id/1
-//    public List findListById(@PathVariable int id) {
-//        return service.getListById(id);
-//    }
     @GetMapping("/id/{id}")
     public ResponseEntity<List> findListById(@PathVariable int id, Authentication authentication) {
         JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) authentication;
@@ -77,7 +73,6 @@ public class ListController {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
     private boolean hasUserAccessToList(int userId, int listId) {
-        // Check if the user has access to the list
         return service.doesListBelongToUser(listId, userId);
     }
 
@@ -120,7 +115,7 @@ public class ListController {
         int userId = TokenService.getUserIdFromToken(jwtToken);
         if (hasUserAccessToList(userId, id)) {
             System.out.println("List does belong to a user: ");
-            service.deleteList(id); // delete nie zwraca boolean; xD
+            service.deleteList(id);
             return ResponseEntity.ok(null);
         }
         System.out.println("List does NOT belong to a user: ");
