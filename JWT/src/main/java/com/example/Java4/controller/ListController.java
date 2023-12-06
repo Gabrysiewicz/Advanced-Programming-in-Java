@@ -120,7 +120,7 @@ public class ListController {
         int userId = TokenService.getUserIdFromToken(jwtToken);
         if (hasUserAccessToList(userId, id)) {
             System.out.println("List does belong to a user: ");
-            service.deleteList(id); // delete nie zwraca boolean; xD
+            service.deleteList(id);
             return ResponseEntity.ok(null);
         }
         System.out.println("List does NOT belong to a user: ");
