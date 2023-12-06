@@ -3,10 +3,8 @@ package com.example.Java4.service;
 import com.example.Java4.entity.List;
 import com.example.Java4.entity.ListItem;
 import com.example.Java4.entity.User;
-import com.example.Java4.entity.UserList;
 import com.example.Java4.repository.ListRepository;
 import com.example.Java4.repository.UserRepository;
-import com.example.Java4.repository.UsersListsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +18,6 @@ public class ListService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private UsersListsRepository usersListsRepository;
 
     public List saveList(List list) {
         return repository.save(list);
@@ -49,9 +45,6 @@ public class ListService {
     public boolean doesListBelongToUser(int listId, int userId) {
         // Check if the list with the given ID belongs to the user with the specified username
         return repository.existsByIdAndUsersId(listId, userId);
-    }
-    public List getListByHash(String hash) {
-        return repository.findByHash(hash);
     }
 
     public String deleteList(int id) {

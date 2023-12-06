@@ -23,13 +23,6 @@ public class UserService implements UserDetailsService {
         return repository.findByUsername(username).orElseThrow( () -> new UsernameNotFoundException("user is not valid"));
     }
 
-    public User saveUser(User user) {
-        return repository.save(user);
-    }
-
-    public List<User> saveUsers(List<User> users) {
-        return repository.saveAll(users);
-    }
 
     public User getUserById(int id) {
         return repository.findById(id).orElse(null);

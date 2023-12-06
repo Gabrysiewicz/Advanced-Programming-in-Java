@@ -15,18 +15,6 @@ public class UserController {
     @Autowired
     private UserService service;
 
-    @PostMapping("/") // localhost:8080/user
-    public User addUser(@RequestBody User user) {
-        return service.saveUser(user);
-    }
-
-
-    // todo: zabierz my to, tylko dla admina
-    @PostMapping("/s")  // localhost:8080/user/s
-    public List<User> addUsers(@RequestBody List<User> users) {
-        return service.saveUsers(users);
-    }
-
     @GetMapping("/s")  // localhost:8080/user/s
     @PreAuthorize("hasRole('ADMIN')")
     public List<User> findAllUsers() {

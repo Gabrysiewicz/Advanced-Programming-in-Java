@@ -2,14 +2,12 @@ package com.example.Java4.controller;
 
 import com.example.Java4.entity.List;
 import com.example.Java4.entity.ListItem;
-import com.example.Java4.repository.UsersListsRepository;
 import com.example.Java4.service.ListService;
 import com.example.Java4.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 import com.example.Java4.service.TokenService;
@@ -24,8 +22,7 @@ public class ListController {
     private ListService service;
     @Autowired
     private UserService userService;
-    @Autowired
-    private UsersListsRepository usersListsRepository;
+
 
     private final SecurityConfiguration securityConfiguration;
 
@@ -82,22 +79,6 @@ public class ListController {
     }
     private boolean hasUserAccessToList(int userId, int listId) {
         return service.doesListBelongToUser(listId, userId);
-    }
-
-    // CHECK
-    @GetMapping("/{id}/{hash}")  // localhost:8080/list/2/qwer1234QWER!@#$
-    public ResponseEntity<List> findListByHash(@PathVariable Integer id, @PathVariable String hash, Authentication authentication) {
-        JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) authentication;
-        String jwtToken = Functions.extractJwtToken(jwtAuthenticationToken);
-
-        int userId = TokenService.getUserIdFromToken(jwtToken);
-        if (hasUserAccessToList(userId, id)) {
-            System.out.println("List does belong to a user: ");
-            List list = service.getListByHash(hash);
-            return ResponseEntity.ok(list);
-        }
-        System.out.println("List does NOT belong to a user: ");
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
     @PutMapping("/")  // localhost:8080/list
