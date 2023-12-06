@@ -32,14 +32,18 @@ public class SecurityConfiguration {
 
     private final RSAKeyProperties keys;
 
+    // Constructor to inject RSAKeyProperties bean
     public SecurityConfiguration(RSAKeyProperties keys){
         this.keys = keys;
     }
+
+    // Bean definition for PasswordEncoder
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
+    // Bean definition for AuthenticationManager
     @Bean
     public AuthenticationManager authManager(UserDetailsService detailsService, PasswordEncoder passwordEncoder){
         DaoAuthenticationProvider daoProvider = new DaoAuthenticationProvider();
@@ -47,18 +51,24 @@ public class SecurityConfiguration {
         daoProvider.setPasswordEncoder(passwordEncoder); // Set the PasswordEncoder
         return new ProviderManager(daoProvider);
     }
+
+    // Bean definition for SecurityFilterChain
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http
+                // Configure CSRF protection
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> {
+                    // Allow access to certain paths without authentication
                     auth.requestMatchers("/auth/**").permitAll();
 
+                    // Allow access to specific paths for users with the ADMIN role
                     auth.requestMatchers("/admin/**").hasRole("ADMIN");
                     auth.requestMatchers("/user/s").hasRole("ADMIN");
                     auth.requestMatchers("/item/s").hasRole("ADMIN");
                     auth.requestMatchers("/list/s").hasRole("ADMIN");
 
+                    // Allow access to specific paths for users with the USER role
                     auth.requestMatchers("/user/").hasRole("USER");
                     auth.requestMatchers("/user/{id}").hasRole("USER");
                     auth.requestMatchers("/item/").hasRole("USER");
@@ -67,12 +77,14 @@ public class SecurityConfiguration {
 
                     auth.requestMatchers("/list/**").hasRole("USER");
 
+                    // Require authentication for any other requests
                     auth.anyRequest().authenticated();
                 })
+                // Configure OAuth2 Resource Server and JWT authentication
                 .oauth2ResourceServer()
                 .jwt()
                 .jwtAuthenticationConverter(jwtAuthenticationConverter());
-
+        // Configure session management
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();
@@ -110,7 +122,7 @@ public class SecurityConfiguration {
             // Extract the userId from the JWT claims
             return jwt.getClaim("userId");
         } catch (JwtException e) {
-            // Handle exception (e.g., invalid JWT)
+            // Handle exception (invalid JWT)
             throw new RuntimeException("Failed to decode JWT", e);
         }
     }

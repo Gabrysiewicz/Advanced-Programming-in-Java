@@ -35,7 +35,7 @@ public class ListItemController {
         // Get the userId
         int userId = TokenService.getUserIdFromToken(jwtToken);
         // Authorize
-        if (hasUserAccessToList(userId, itemId)) {
+        if (hasUserAccessToList(userId, listId)) {
             System.out.println("Item does belong to a user: ");
             com.example.Java4.entity.ListItem item = listItemService.assignItemToList(itemId, listId);
             return ResponseEntity.ok(item);

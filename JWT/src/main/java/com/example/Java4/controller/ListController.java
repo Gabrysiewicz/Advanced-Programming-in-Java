@@ -84,6 +84,7 @@ public class ListController {
         return service.doesListBelongToUser(listId, userId);
     }
 
+    // CHECK
     @GetMapping("/{id}/{hash}")  // localhost:8080/list/2/qwer1234QWER!@#$
     public ResponseEntity<List> findListByHash(@PathVariable Integer id, @PathVariable String hash, Authentication authentication) {
         JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) authentication;
