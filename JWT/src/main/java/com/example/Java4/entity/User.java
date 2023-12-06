@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -38,7 +39,7 @@ public class User implements UserDetails {
     )
     private Set<Role> authorities;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "users_lists",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "list_id"))
@@ -57,6 +58,7 @@ public class User implements UserDetails {
         this.email = email;
         this.username = username;
         this.password = password;
+        this.lists = new HashSet<>();
         this.authorities = authorities;
     }
 

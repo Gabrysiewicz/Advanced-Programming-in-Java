@@ -32,7 +32,7 @@ public class List {
     @OneToMany(mappedBy = "list", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private Set<ListItem> listItems =  new HashSet<>();
 
-    @ManyToMany(mappedBy = "lists", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToMany(mappedBy = "lists", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
