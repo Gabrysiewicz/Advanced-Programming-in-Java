@@ -58,10 +58,16 @@ public class ListItemController {
         String jwtToken = Functions.extractJwtToken(jwtAuthenticationToken);
         // Get the userId
         int userId = TokenService.getUserIdFromToken(jwtToken);
+        ListItem item = listItemService.getItemById(id);
+        if(item == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        com.example.Java4.entity.List list = item.getList();
         // Authorize
-        if (hasUserAccessToList(userId, id)) {
+        if (hasUserAccessToList(userId, list.getId())) {
             System.out.println("Item does belong to a user: ");
             listItemService.deleteItemById(id);
+
             return ResponseEntity.ok(null);
         }
         System.out.println("Item does NOT belong to a user: ");
@@ -102,11 +108,14 @@ public class ListItemController {
 
 
         if(item2.getList() == null)  return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        int listId = item2.getList().getId();
 
         // Authorize
         if (hasUserAccessToList(userId, item2.getList().getId())) {
             System.out.println("Item does belong to a user: ");
             listItemService.updateListItem(item);
+
+            listItemService.assignItemToList(item2.getId(), listId);
             return ResponseEntity.ok(item);
         }
         System.out.println("Item does NOT belong to a user: ");

@@ -27,11 +27,6 @@ public class UserController {
         return service.getUserById(id);
     }
 
-    @PutMapping("/")  // localhost:8080/user
-    public User updateUser(@RequestBody User user) {
-        return service.updateUser(user);
-    }
-
     @DeleteMapping("/{id}")  // localhost:8080/user/1
     @PreAuthorize("hasRole('ADMIN')")
     public String deleteUser(@PathVariable int id) {
