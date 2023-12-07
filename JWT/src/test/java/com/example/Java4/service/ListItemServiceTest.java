@@ -121,7 +121,6 @@ class ListItemServiceTest {
         willDoNothing().given(listItemRepository).deleteById(itemId);
 
         String result = listItemService.deleteItemById(itemId);
-        // todo: make all delete test somewhat similar
         assertThat(result).isEqualTo("Deleted item:" + itemId);
         verify(listItemRepository, times(1)).deleteById(itemId);
     }
