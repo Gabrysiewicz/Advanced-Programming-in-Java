@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.1.0
+    container_name: todo_list_tests
+    environment:
+      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_DATABASE: '${DB_DATABASE}'
+      MYSQL_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    ports:
+      - '${DB_PORT:-3306}:3306'
+    volumes:
+      - ../Database/init.sql:/docker-entrypoint-initdb.d/init.sql
+#      - ../Database/data:/var/lib/mysql
+#      - ./db_data:/var/lib/mysql
+

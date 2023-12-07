@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
+@SpringBootTest(properties = "spring.config.name=application-tests")
 @AutoConfigureMockMvc
 @Transactional
 class ListControllerIntegrationTest {
