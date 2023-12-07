@@ -13,6 +13,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
@@ -28,6 +30,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
 
     private final RSAKeyProperties keys;
@@ -70,7 +73,6 @@ public class SecurityConfiguration {
 
                     // Allow access to specific paths for users with the USER role
                     auth.requestMatchers("/user/").hasRole("USER");
-                    auth.requestMatchers("/user/{id}").hasRole("USER");
                     auth.requestMatchers("/item/").hasRole("USER");
                     auth.requestMatchers("/item/{itemId}/list/{listId}").hasRole("USER");
                     auth.requestMatchers("/item/{id}").hasRole("USER");

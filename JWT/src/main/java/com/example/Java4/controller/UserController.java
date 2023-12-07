@@ -22,6 +22,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")  // localhost:8080/user/1
+    @PreAuthorize("hasRole('USER')")
     public User findUserById(@PathVariable int id) {
         return service.getUserById(id);
     }
@@ -32,6 +33,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")  // localhost:8080/user/1
+    @PreAuthorize("hasRole('ADMIN')")
     public String deleteUser(@PathVariable int id) {
         return service.deleteUser(id);
     }

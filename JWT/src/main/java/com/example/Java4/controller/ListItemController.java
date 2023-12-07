@@ -96,9 +96,15 @@ public class ListItemController {
         String jwtToken = Functions.extractJwtToken(jwtAuthenticationToken);
         // Get the userId
         int userId = TokenService.getUserIdFromToken(jwtToken);
-        int id = item.getId();
+
+        ListItem item2 = listItemService.getItemById(item.getId());
+
+
+
+        if(item2.getList() == null)  return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
         // Authorize
-        if (hasUserAccessToList(userId, id)) {
+        if (hasUserAccessToList(userId, item2.getList().getId())) {
             System.out.println("Item does belong to a user: ");
             listItemService.updateListItem(item);
             return ResponseEntity.ok(item);
